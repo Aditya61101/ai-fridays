@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
-import type { Message } from '@/store/chat-store';
+import { type Message } from '@/store/chat-store';
+// import MessageLoader from '@/components/chat/message-loader';
 
 interface MessageBubbleProps {
   message: Message;
@@ -7,7 +8,6 @@ interface MessageBubbleProps {
 
 export default function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === 'user';
-
   return (
     <div
       className={cn(
@@ -23,24 +23,12 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
             : 'bg-muted text-foreground rounded-tl-none'
         )}
       >
-        {message.isStreaming ? (
-          <div className="flex gap-1 py-1">
-            <div
-              className="w-2 h-2 bg-primary rounded-full animate-bounce"
-              style={{ animationDelay: '0ms' }}
-            />
-            <div
-              className="w-2 h-2 bg-primary rounded-full animate-bounce"
-              style={{ animationDelay: '150ms' }}
-            />
-            <div
-              className="w-2 h-2 bg-primary rounded-full animate-bounce"
-              style={{ animationDelay: '300ms' }}
-            />
-          </div>
+        <p className="text-sm leading-relaxed break-words">{message.content}</p>
+        {/* {message.isStreaming ? (
+         <MessageLoader/>
         ) : (
           <p className="text-sm leading-relaxed break-words">{message.content}</p>
-        )}
+        )} */}
       </div>
     </div>
   );

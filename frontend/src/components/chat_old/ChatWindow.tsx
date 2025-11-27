@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useChatStore } from "@/store/chat";
+import { useChatStore } from "@/store/chat_old";
 import { ChatInput } from "./ChatInput";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { TypingIndicator } from "./TypingIndicator";

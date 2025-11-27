@@ -1,39 +1,40 @@
-import { useChatStore } from "@/store/chat";
-import api from "./base";
+
+import { useChatStore } from "@/store/chat-store";
+// import api from "./base";
 
 export const sendMessage = async (content: string) => {
     const {
-        addMessage,
-        updateLastMessage,
+        addUserMessage,
+        addAiMessage,
         setThreadId,
         threadId,
-        setIsLoading,
     } = useChatStore.getState();
 
-    // addMessage("user", content);
-    addMessage(content);
-    setIsLoading(true);
-
+    addUserMessage(content);
     let finalThread = threadId;
     if (!finalThread) {
         finalThread = crypto.randomUUID();
         setThreadId(finalThread);
     }
+
     // const payload = {
     //     user_prompt: content,
-    //     ...(threadId && { thread_id: threadId }),
+    //     thread_id: finalThread,
     // };
-    const payload = {
-        user_prompt: content,
-        thread_id: finalThread,
-    };
-    // for normal response
-    const { data } = await api.post(
-        "/chat",
-        payload
-    );
-    setIsLoading(false);
-    updateLastMessage(data.final_response);
+    // const { data } = await api.post(
+    //     "/chat",
+    //     payload
+    // );
+    // addAiMessage(data.final_response);
+
+    // Simulated response
+    const response = `I received your message: "${content}". This is a simulated response where each token arrives gradually.`;
+    setTimeout(() => {
+        addAiMessage(response);
+    }, 5000);
+
+
+    // updateLastMessage(data.final_response);
 
     // for streaming response
     // const response = await fetch(

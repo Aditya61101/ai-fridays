@@ -13,11 +13,14 @@ export interface ChatStoreState {
   currentStreamMessageId?: string;
   files: File[];
   scrollLocked: boolean;
+  threadId: string | null;
+  shouldScroll: boolean;
 }
 
 export interface ChatStoreActions {
   addUserMessage: (content: string) => void;
-  addAiMessage: (content: string) => void;
+  addAiMessage: (content:string) => void;
+  // updateLastAIMessage: (content: string) => void; 
   startStreamMessage: () => void;
   updateStreamMessage: (token: string) => void;
   finishStreamMessage: () => void;
@@ -26,25 +29,26 @@ export interface ChatStoreActions {
   clearFiles: () => void;
   setScrollLocked: (locked: boolean) => void;
   clearMessages: () => void;
+  setThreadId: (id: string | null) => void;
+  setShouldScroll: (shouldScroll: boolean) => void;
 }
 
 export type ChatStore = ChatStoreState & ChatStoreActions;
 
-const generateId = () => Math.random().toString(36).substring(2, 11);
-
-export const useChatStore = create<ChatStore>((set, get) => ({
+export const useChatStore = create<ChatStore>((set) => ({
   messages: [],
   isLoading: false,
   currentStreamMessageId: undefined,
   files: [],
   scrollLocked: false,
+  threadId: null,
+  shouldScroll: true,
 
   addUserMessage: (content: string) => {
     const message: Message = {
-      id: generateId(),
+      id: crypto.randomUUID(),
       role: 'user',
       content,
-      isStreaming: false,
     };
     set((state) => ({
       messages: [...state.messages, message],
@@ -52,20 +56,61 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }));
   },
 
-  addAiMessage: (content: string) => {
+  addAiMessage: (content:string) => {
     const message: Message = {
-      id: generateId(),
+      id: crypto.randomUUID(),
       role: 'ai',
       content,
-      isStreaming: false,
     };
     set((state) => ({
       messages: [...state.messages, message],
+      isLoading: false
     }));
   },
 
+  // updateLastAIMessage: (content: string) => {
+  //   set((state) => {
+  //     const messages = [...state.messages];
+  //     let lastMessage = messages[messages.length - 1];
+  //     if (lastMessage && lastMessage.role === 'ai') {
+  //       lastMessage = { ...lastMessage, content, isMessageLoading:false };
+  //       messages[messages.length - 1] = lastMessage;
+  //     }
+  //     return { messages };
+  //   });
+  // },
+
+  setThreadId: (id) => set({ threadId: id }),
+
+  setLoading: (loading: boolean) =>  set({ isLoading: loading }),
+
+  setShouldScroll: (shouldScroll: boolean) => set({ shouldScroll }),
+
+  addFiles: (files: File[]) => {
+    set((state) => ({
+      files: [...state.files, ...files],
+    }));
+  },
+
+  clearFiles: () => {
+    set({ files: [] });
+  },
+
+  setScrollLocked: (locked: boolean) => {
+    set({ scrollLocked: locked });
+  },
+
+  clearMessages: () => {
+    set({
+      messages: [],
+      isLoading: false,
+      currentStreamMessageId: undefined,
+    });
+  },
+
+  // for streaming purpose
   startStreamMessage: () => {
-    const messageId = generateId();
+    const messageId = crypto.randomUUID();
     set((state) => ({
       currentStreamMessageId: messageId,
       messages: [
@@ -106,31 +151,5 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         isLoading: false,
       };
     });
-  },
-
-  setLoading: (loading: boolean) => {
-    set({ isLoading: loading });
-  },
-
-  addFiles: (files: File[]) => {
-    set((state) => ({
-      files: [...state.files, ...files],
-    }));
-  },
-
-  clearFiles: () => {
-    set({ files: [] });
-  },
-
-  setScrollLocked: (locked: boolean) => {
-    set({ scrollLocked: locked });
-  },
-
-  clearMessages: () => {
-    set({
-      messages: [],
-      isLoading: false,
-      currentStreamMessageId: undefined,
-    });
-  },
+  }
 }));

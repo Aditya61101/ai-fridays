@@ -3,11 +3,14 @@ import MessageBubble from './message-bubble';
 import ScrollToBottomButton from '@/components/chat/scroll-to-bottom';
 import { useChatStore } from '@/store/chat-store';
 import EmptyState from '@/components/chat/empty-state';
+import { sendMessage } from '@/api/chat';
+import MessageLoader from './message-loader';
 
 export default function MessageList() {
   const { messages, setScrollLocked } = useChatStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const isLoading = useChatStore((state) => state.isLoading);
 
   // Scroll to bottom when AI responds
   const scrollToBottom = () => {
@@ -36,14 +39,22 @@ export default function MessageList() {
   // Scroll to top when new user message is added
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.role === 'user') {
-      setTimeout(scrollToBottom, 100);
+    if (lastMessage?.role === "user") {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          scrollToBottom();
+        });
+      });
     }
-  }, [messages]);
+    // if (lastMessage?.role === 'user') {
+    //   setTimeout(scrollToBottom, 100);
+    // }
+  }, [messages, isLoading]);
 
-  const handlePromptClick = (prompt: string) => {
-    const { addUserMessage } = useChatStore.getState();
-    addUserMessage(prompt);
+  const handlePromptClick = async (prompt: string) => {
+    // const { addUserMessage } = useChatStore.getState();
+    // addUserMessage(prompt);
+    await sendMessage(prompt);
   };
 
   return (
@@ -59,6 +70,7 @@ export default function MessageList() {
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
+          {isLoading && <div className="rounded-xl bg-muted text-foreground rounded-tl-none"><MessageLoader/></div>}
           <div className="h-[90%]" />
         </>
       )}

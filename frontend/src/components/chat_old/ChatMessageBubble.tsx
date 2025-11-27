@@ -1,4 +1,4 @@
-import type { ChatMessage } from "@/store/chat";
+import type { ChatMessage } from "@/store/chat_old";
 
 export const ChatMessageBubble = ({ message }: { message: ChatMessage }) => {
     return (

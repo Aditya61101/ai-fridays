@@ -1,6 +1,5 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { useChatStore } from '@/store/chat-store';
 import MessageList from '@/components/chat/message-list';
 import ChatInput from '@/components/chat/chat-input';
 
@@ -14,52 +13,49 @@ export interface ChatContainerProps {
 
 export default function ChatContainer({
   fullPage = false,
-  onSendMessage,
-  onUpload,
   enableUpload = true,
   className,
 }: ChatContainerProps) {
-  const { addUserMessage, setLoading } = useChatStore();
-  const [isProcessing, setIsProcessing] = useState(false);
+  // const { addUserMessage, setLoading } = useChatStore();
+  // const [isProcessing, setIsProcessing] = useState(false);
+  
+  // const handleSendMessage = async (content: string) => {
+  //   if (!content.trim() || isProcessing) return;
 
-  const handleSendMessage = async (content: string) => {
-    if (!content.trim() || isProcessing) return;
+  //   addUserMessage(content);
+  //   setIsProcessing(true);
+  //   try {
+  //     if (onSendMessage) {
+  //       const result = await onSendMessage(content);
 
-    addUserMessage(content);
-    setIsProcessing(true);
+  //       // Handle streaming response
+  //       if (result && typeof result === 'object' && Symbol.asyncIterator in result) {
+  //         const { startStreamMessage, updateStreamMessage, finishStreamMessage } =
+  //           useChatStore.getState();
+  //         startStreamMessage();
 
-    try {
-      if (onSendMessage) {
-        const result = await onSendMessage(content);
+  //         for await (const token of result as AsyncGenerator<string>) {
+  //           updateStreamMessage(token);
+  //         }
 
-        // Handle streaming response
-        if (result && typeof result === 'object' && Symbol.asyncIterator in result) {
-          const { startStreamMessage, updateStreamMessage, finishStreamMessage } =
-            useChatStore.getState();
-          startStreamMessage();
+  //         finishStreamMessage();
+  //       } else {
+  //         // Handle non-streaming response
+  //         const { addAiMessage } = useChatStore.getState();
+  //         addAiMessage(result as string);
+  //       }
+  //     }
+  //   } finally {
+  //     setIsProcessing(false);
+  //     setLoading(false);
+  //   }
+  // };
 
-          for await (const token of result as AsyncGenerator<string>) {
-            updateStreamMessage(token);
-          }
-
-          finishStreamMessage();
-        } else {
-          // Handle non-streaming response
-          const { addAiMessage } = useChatStore.getState();
-          addAiMessage(result as string);
-        }
-      }
-    } finally {
-      setIsProcessing(false);
-      setLoading(false);
-    }
-  };
-
-  const handleUpload = async (files: File[]) => {
-    if (onUpload) {
-      await onUpload(files);
-    }
-  };
+  // const handleUpload = async (files: File[]) => {
+  //   if (onUpload) {
+  //     await onUpload(files);
+  //   }
+  // };
 
   const containerClasses = cn(
     'flex flex-col',
@@ -72,10 +68,10 @@ export default function ChatContainer({
       <MessageList />
       <div className="px-[calc(100vw-75rem)]">
         <ChatInput
-          onSendMessage={handleSendMessage}
-          onUpload={handleUpload}
           enableUpload={enableUpload}
-          isLoading={isProcessing}
+          // onSendMessage={handleSendMessage}
+          // onUpload={handleUpload}
+          // isLoading={isProcessing}
         />
       </div>
     </div>

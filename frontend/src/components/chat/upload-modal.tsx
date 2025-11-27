@@ -11,11 +11,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Upload, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { handleUploadAPI } from '@/api/fileOperation';
 
 interface UploadModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onUpload: (files: File[]) => Promise<void>;
+  // onUpload: (files: File[]) => Promise<void>;
 }
 
 const SUPPORTED_TYPES = [
@@ -27,7 +28,7 @@ const SUPPORTED_TYPES = [
   'text/csv',
 ];
 
-export default function UploadModal({ open, onOpenChange, onUpload }: UploadModalProps) {
+export default function UploadModal({ open, onOpenChange }: UploadModalProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -67,7 +68,8 @@ export default function UploadModal({ open, onOpenChange, onUpload }: UploadModa
 
     setIsUploading(true);
     try {
-      await onUpload(files);
+      // await onUpload(files);
+      await handleUploadAPI(files);
       setFiles([]);
       onOpenChange(false);
     } finally {

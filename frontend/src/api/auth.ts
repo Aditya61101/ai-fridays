@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/store/auth";
 import type { ROLE_STR } from "../lib/roles";
-import { useChatStore } from "@/store/chat";
+import { useChatStore } from "@/store/chat_old";
 import api from "./base";
 
 

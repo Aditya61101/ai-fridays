@@ -4,23 +4,27 @@ import { Button } from '@/components/ui/button';
 import { Upload, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import UploadModal from '@/components/chat/upload-modal';
+import { useChatStore } from '@/store/chat-store';
+import { sendMessage } from '@/api/chat';
 
 interface ChatInputProps {
-  onSendMessage: (content: string) => Promise<void>;
-  onUpload?: (files: File[]) => Promise<void>;
+  // onSendMessage: (content: string) => Promise<void>;
+  // onUpload?: (files: File[]) => Promise<void>;
   enableUpload?: boolean;
-  isLoading?: boolean;
+  // isLoading?: boolean;
 }
 
 export default function ChatInput({
-  onSendMessage,
-  onUpload,
+  // onSendMessage,
+  // onUpload,
   enableUpload = true,
-  isLoading = false,
+  // isLoading = false,
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [message, setMessage] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const isLoading = useChatStore((state) => state.isLoading);
 
   // Auto-resize textarea
   useEffect(() => {
@@ -34,7 +38,8 @@ export default function ChatInput({
 
   const handleSend = async () => {
     if (message.trim() && !isLoading) {
-      await onSendMessage(message);
+      // await onSendMessage(message);
+      await sendMessage(message);
       setMessage('');
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
@@ -47,13 +52,6 @@ export default function ChatInput({
       e.preventDefault();
       handleSend();
     }
-  };
-
-  const handleUploadConfirm = async (files: File[]) => {
-    if (onUpload) {
-      await onUpload(files);
-    }
-    setShowUploadModal(false);
   };
 
   return (
@@ -105,7 +103,7 @@ export default function ChatInput({
       <UploadModal
         open={showUploadModal}
         onOpenChange={setShowUploadModal}
-        onUpload={handleUploadConfirm}
+        // onUpload={handleUploadConfirm}
       />
     </>
   );

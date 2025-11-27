@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { sendMessage } from "@/api/chat";
-import { useChatStore } from "@/store/chat";
+import { useChatStore } from "@/store/chat_old";
 import { Loader2, Send } from "lucide-react";
 
 export const ChatInput = () => {
