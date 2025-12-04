@@ -1,0 +1,21 @@
+Good afternoon sir, My name is Aditya Kumar and I recently graduated from IIT patna after pursuing my btech in Electrical and electronics engineering.
+
+Currently I was doing a freelancing project in which I with my senior developed a astrology webapp for a client. We both worked on frontend and backend part.
+I also did a 3 month intern in a startup named Regalo.club in which I was asked to develop a webpp for users to efficiently plan their trips.
+
+I was the coordinator of dev and os department of our CSE club named NJACK in which we were responsible for holding many sessions related open source, hackathons etc. Every year we organize a monthly hackathon named CODEPEAK in which mentors provides project to students participating.
+
+Regarding my achievements, so I won a bronze medal in Inter iit tech meet held last year in february for a high prep statement named Grow simplee. I with my juniors created a rider app in react native.
+
+I was curious to know how website works, how different pages are visited, how beautiful UI are made. This curiosity wants me to become a full stack engineer.
+
+Looking ahead, my goal is to dive deeper into software development, as Software development skills are versatile and can be applied in various industries. 
+
+Developers can work on projects ranging from mobile apps and web development to artificial intelligence and data science.
+
+As a software developer, I will get a chance to learn new techonlogies as technologies are evolving day by day.
+
+New programming languages, frameworks, and tools emerge, providing an ever-changing landscape to explore.
+
+I wanted to serve organizations or companies through my technical skills.
+In data science we usually work with data and extract meaningful insights from it which can help organization take crucial decisions
